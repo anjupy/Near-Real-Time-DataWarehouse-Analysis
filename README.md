@@ -36,31 +36,6 @@ In this step, I will analyze the DW prototype to evaluate its performance and ef
 8. Finalizing and presenting the project:
 The final step is to finalize the project, including documentation, code cleanup, and presentation preparation. I will ensure that all deliverables are completed on time and to a high standard, and present the project findings to the relevant stakeholders.
 
-## Getting Started
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
-You will need to have MySQL installed on your machine. You can download the latest version of [MySQL](https://www.mysql.com/downloads/) here.
-</br>
-You will also need to have Java on your machine. You can download the latest version of [Java](https://www.oracle.com/pk/java/technologies/javase/javase8-archive-downloads.html) here.
-
-### Installing
-Clone this repository onto your local machine.
-```
-git clone https://github.com/MuhammadAhmedSuhail/Near-Real-Time-DataWarehouse-Analysis.git
-```
-Follow the Steps below to run the project:
-1. Run Transactional_MasterData Generator.sql to create master data.
-2. Run createDW.sql to create the Data Warehouse.
-3. Run mj.java upon running it will ask for database credientials default are
-  database name:db
-  username: root
-  password: ""
-  This file will populate the data in the data warehouse after implementing the meshjoin.
-4. Run queriesDW.sql to extract information from the Data warehouse using OLAP queries.
-5. Open the report to view the project overview, mesh join algorithm, shortcomings of this algorithm and
-  the learning outcomes of this project.
-
 ## MESHJOIN (Mesh Join)
 The MESHJOIN (Mesh Join) algorithm has been introduced by Polyzotis in 2008 with the objective of implementing the Stream-Relation join operation in the transformation phase of ETL.
 
@@ -122,11 +97,39 @@ Enriching the data can help to uncover hidden insights, improve data accuracy, a
   <img src="https://user-images.githubusercontent.com/72251313/233685738-d1516b66-a012-4dbc-b9d8-69b85b407bd1.png">
 </p>
 
+## Getting Started
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+You will need to have MySQL installed on your machine. You can download the latest version of [MySQL](https://www.mysql.com/downloads/) here.
+</br>
+You will also need to have Java on your machine. You can download the latest version of [Java](https://www.oracle.com/pk/java/technologies/javase/javase8-archive-downloads.html) here.
+
+### Installing
+Clone this repository onto your local machine.
+```
+git clone https://github.com/MuhammadAhmedSuhail/Near-Real-Time-DataWarehouse-Analysis.git
+```
+Follow the Steps below to run the project:
+1. Run Transactional_MasterData Generator.sql to create master data.
+2. Run createDW.sql to create the Data Warehouse.
+3. Run mj.java upon running it will ask for database credientials default are
+  database name:db
+  username: root
+  password: ""
+  This file will populate the data in the data warehouse after implementing the meshjoin.
+4. Run queriesDW.sql to extract information from the Data warehouse using OLAP queries.
+5. Open the report to view the project overview, mesh join algorithm, shortcomings of this algorithm and
+  the learning outcomes of this project.
+
 ## DW Analysis
 After the data is loaded into the DW, the next step is to analyze the data. This section of the project involves applying OLAP queries to analyze the data in the DW. The following OLAP queries should be applied to the DW:
 
 ### Q1. Top 3 Store Names with the Highest Sales in September 2017
 This query is intended to determine the top 3 stores that generated the highest sales in September 2017. The output of the query should show the names of the stores along with their respective sales figures.
+```
+SELECT store.store_name,round(SUM(total_sale)) as revenue FROM sales JOIN store on store.store_id = sales.store_id JOIN date on date.time_id = sales.time_id where date.month = "september" and date.year = 2017 group by sales.store_id order by revenue desc LIMIT 3;
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/72251313/233683228-b83b647a-01b0-41fd-b20b-c3c97cb80440.png">
@@ -134,6 +137,9 @@ This query is intended to determine the top 3 stores that generated the highest 
 
 ### Q2. Top 10 Suppliers that Generated Most Revenue Over the Weekends
 The goal of this query is to find the top 10 suppliers that generated the most revenue over the weekends. In addition to finding the top 10 suppliers, the query should also explain how we can forecast the top suppliers for the next weekend.
+```
+SELECT supplier.supplier_name,round(SUM(total_sale)) as Revenue FROM sales JOIN date on date.time_id = sales.time_id JOIN supplier on supplier.supplier_id = sales.supplier_id where date.weekend = 1 group by supplier.supplier_id order by Revenue desc LIMIT 10;
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/72251313/233683517-dfd85630-b3af-4635-a33b-ebf2fefdaf4f.png">
@@ -141,6 +147,9 @@ The goal of this query is to find the top 10 suppliers that generated the most r
 
 ### Q3. Total Sales of All Products Supplied by Each Supplier with Respect to Quarter and Month
 This query aims to present the total sales of all products supplied by each supplier with respect to quarter and month. The output of the query should be organized by supplier and should show the total sales figures for each quarter and month.
+```
+SELECT sales.product_id,product.product_name,date.month,date.quarter,SUM(total_sale) as Revenue FROM sales JOIN product on product.product_id = sales.product_id JOIN date on date.time_id = sales.time_id group by sales.product_id, date.quarter,date.month;
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/72251313/233683616-a1facd9a-d028-46b4-a671-28a8bd20e7be.png">
@@ -148,6 +157,9 @@ This query aims to present the total sales of all products supplied by each supp
 
 ### Q4. Total Sales of Each Product Sold by Each Store
 This query is designed to present the total sales of each product sold by each store. The output of the query should be organized by store and then product, with sales figures shown for each store and product.
+```
+SELECT store.store_name,product.product_name,round(SUM(total_sale)) as Revenue from sales join store on store.store_id = sales.store_id join product on product.product_id = sales.product_id group by sales.store_id,sales.product_id;
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/72251313/233683771-de367c8d-3cd8-4486-a233-30c5d7e7818e.png">
@@ -155,6 +167,9 @@ This query is designed to present the total sales of each product sold by each s
 
 ### Q5. Quarterly Sales Analysis for All Stores Using Drill Down Query Concepts
 The purpose of this query is to present the quarterly sales analysis for all stores using drill down query concepts. The output of the query should show the quarterly sales figures for each store, and it should be possible to drill down into the data to see the monthly sales figures for each store.
+```
+SELECT store.store_name,date.quarter,round(SUM(total_sale)) as Revenue from sales join date on date.time_id = sales.time_id join store on store.store_id = sales.store_id group by store.store_id,date.quarter;
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/72251313/233683886-fc55ac63-b824-4aa6-81e2-1ddb93ca241c.png">
@@ -162,6 +177,9 @@ The purpose of this query is to present the quarterly sales analysis for all sto
 
 ### Q6. Top 5 Most Popular Products Sold Over the Weekends
 The goal of this query is to find the 5 most popular products sold over the weekends. The output of the query should show the names of the products along with their respective sales figures.
+```
+SELECT product.product_name,round(SUM(total_sale)) as Revenue from sales join date on date.time_id = sales.time_id join product on product.product_id = sales.product_id where date.weekend = 1 group by sales.product_id order by Revenue desc limit 5;
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/72251313/233683992-343fbf17-fecd-46e4-bb88-8a6f77d3b2fd.png">
@@ -169,6 +187,9 @@ The goal of this query is to find the 5 most popular products sold over the week
 
 ### Q7. ROLLUP Operation to Store, Supplier, and Product
 This query involves performing a ROLLUP operation to store, supplier, and product. The output of the query should show the total sales figures for each store, supplier, and product.
+```
+SELECT store_id,supplier_id,product_id from sales group by store_id,supplier_id,product_id with rollup;
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/72251313/233684091-85ddaa97-e424-4b36-8fdc-57b58f5f1068.png">
@@ -176,6 +197,9 @@ This query involves performing a ROLLUP operation to store, supplier, and produc
 
 ### Q8. Total Sales of Each Product for the First and Second Half of Year 2017 Along with Total Yearly Sales
 This query aims to extract the total sales of each product for the first and second half of year 2017, along with its total yearly sales. The output of the query should show the total sales figures for each product for each half of the year and for the whole year.
+```
+SELECT product.product_name,date.half_of_year,round(SUM(total_sale)) as Revenue from sales join product on product.product_id = sales.product_id join date on date.time_id = sales.time_id where date.year = 2017 group by sales.product_id, half_of_year;
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/72251313/233684348-d1e9e22f-422c-442e-8674-9c9bd1379b94.png">
@@ -183,6 +207,9 @@ This query aims to extract the total sales of each product for the first and sec
 
 ### Q9. Finding Anomalies in the DW Dataset
 This query involves finding an anomaly in the DW dataset. The output of the query should show the anomaly, and the query should be explained in the project report.
+```
+SELECT * FROM dw.product where product_name = "Tomatoes";
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/72251313/233684675-e7666c87-98de-4ec7-9ffb-65b26f4bebcc.png">
@@ -190,10 +217,24 @@ This query involves finding an anomaly in the DW dataset. The output of the quer
 
 ### Q10. Creating a Materialized View with Name “STORE_PRODUCT_ANALYSIS”
 This query involves creating a materialized view with the name "STORE_PRODUCT_ANALYSIS" that presents store and product wise sales. The output of the query should be ordered by store name and then product name. The query should also explain how the materialized view helps in OLAP query optimization.
+```
+CREATE TABLE `STORE_PRODUCT_ANALYSIS` AS 
+  SELECT store_name,product_name,total_sale FROM sales join store on sales.store_id = store.store_id join product on sales.product_id = product.product_id order by store_name,product_name;
+```
+```
+SELECT * from STORE_PRODUCT_ANALYSIS;
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/72251313/233684826-4005f3a5-efb6-433a-9b38-33b50fc04e12.png">
 </p>
+
+## Technologies Used
+The following technologies were used in this project:
+
+Java: for implementing the MESHJOIN algorithm and other components.
+Eclipse IDE: for developing and testing the Java code.
+MySQL: for storing and analyzing the data warehouse.
 
 ## Limitations of MESH-JOIN:
 1. Largely depend on memory which doesn’t make it optimal.
