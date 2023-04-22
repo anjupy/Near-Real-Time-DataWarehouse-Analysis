@@ -167,8 +167,8 @@ group by sales.product_id, date.quarter,date.month;
 ### Q4. Total Sales of Each Product Sold by Each Store
 This query is designed to present the total sales of each product sold by each store. The output of the query should be organized by store and then product, with sales figures shown for each store and product.
 ```
-SELECT store.store_name,product.product_name,round(SUM(total_sale)) as Revenue FROM sales JOIN 
-store on store.store_id = sales.store_id JOIN product on product.product_id = sales.product_id 
+SELECT store.store_name,product.product_name,round(SUM(total_sale)) as Revenue FROM sales 
+JOIN store on store.store_id = sales.store_id JOIN product on product.product_id = sales.product_id 
 group by sales.store_id,sales.product_id;
 ```
 
