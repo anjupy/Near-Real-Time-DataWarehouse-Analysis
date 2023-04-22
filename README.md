@@ -128,7 +128,9 @@ After the data is loaded into the DW, the next step is to analyze the data. This
 ### Q1. Top 3 Store Names with the Highest Sales in September 2017
 This query is intended to determine the top 3 stores that generated the highest sales in September 2017. The output of the query should show the names of the stores along with their respective sales figures.
 ```
-SELECT store.store_name,round(SUM(total_sale)) as revenue FROM sales JOIN store on store.store_id = sales.store_id JOIN date on date.time_id = sales.time_id where date.month = "september" and date.year = 2017 group by sales.store_id order by revenue desc LIMIT 3;
+SELECT store.store_name,round(SUM(total_sale)) as revenue FROM sales JOIN store on store.store_id = sales.store_id 
+JOIN date on date.time_id = sales.time_id where date.month = "september" 
+and date.year = 2017 group by sales.store_id order by revenue desc LIMIT 3;
 ```
 
 <p align="center">
@@ -138,7 +140,9 @@ SELECT store.store_name,round(SUM(total_sale)) as revenue FROM sales JOIN store 
 ### Q2. Top 10 Suppliers that Generated Most Revenue Over the Weekends
 The goal of this query is to find the top 10 suppliers that generated the most revenue over the weekends. In addition to finding the top 10 suppliers, the query should also explain how we can forecast the top suppliers for the next weekend.
 ```
-SELECT supplier.supplier_name,round(SUM(total_sale)) as Revenue FROM sales JOIN date on date.time_id = sales.time_id JOIN supplier on supplier.supplier_id = sales.supplier_id where date.weekend = 1 group by supplier.supplier_id order by Revenue desc LIMIT 10;
+SELECT supplier.supplier_name,round(SUM(total_sale)) as Revenue FROM sales JOIN date on date.time_id = sales.time_id 
+JOIN supplier on supplier.supplier_id = sales.supplier_id where date.weekend = 1 
+group by supplier.supplier_id order by Revenue desc LIMIT 10;
 ```
 
 <p align="center">
@@ -148,7 +152,9 @@ SELECT supplier.supplier_name,round(SUM(total_sale)) as Revenue FROM sales JOIN 
 ### Q3. Total Sales of All Products Supplied by Each Supplier with Respect to Quarter and Month
 This query aims to present the total sales of all products supplied by each supplier with respect to quarter and month. The output of the query should be organized by supplier and should show the total sales figures for each quarter and month.
 ```
-SELECT sales.product_id,product.product_name,date.month,date.quarter,SUM(total_sale) as Revenue FROM sales JOIN product on product.product_id = sales.product_id JOIN date on date.time_id = sales.time_id group by sales.product_id, date.quarter,date.month;
+SELECT sales.product_id,product.product_name,date.month,date.quarter,SUM(total_sale) as Revenue FROM sales 
+JOIN product on product.product_id = sales.product_id JOIN date on date.time_id = sales.time_id 
+group by sales.product_id, date.quarter,date.month;
 ```
 
 <p align="center">
@@ -158,7 +164,9 @@ SELECT sales.product_id,product.product_name,date.month,date.quarter,SUM(total_s
 ### Q4. Total Sales of Each Product Sold by Each Store
 This query is designed to present the total sales of each product sold by each store. The output of the query should be organized by store and then product, with sales figures shown for each store and product.
 ```
-SELECT store.store_name,product.product_name,round(SUM(total_sale)) as Revenue from sales join store on store.store_id = sales.store_id join product on product.product_id = sales.product_id group by sales.store_id,sales.product_id;
+SELECT store.store_name,product.product_name,round(SUM(total_sale)) as Revenue from sales JOIN 
+store on store.store_id = sales.store_id JOIN product on product.product_id = sales.product_id 
+group by sales.store_id,sales.product_id;
 ```
 
 <p align="center">
@@ -168,7 +176,8 @@ SELECT store.store_name,product.product_name,round(SUM(total_sale)) as Revenue f
 ### Q5. Quarterly Sales Analysis for All Stores Using Drill Down Query Concepts
 The purpose of this query is to present the quarterly sales analysis for all stores using drill down query concepts. The output of the query should show the quarterly sales figures for each store, and it should be possible to drill down into the data to see the monthly sales figures for each store.
 ```
-SELECT store.store_name,date.quarter,round(SUM(total_sale)) as Revenue from sales join date on date.time_id = sales.time_id join store on store.store_id = sales.store_id group by store.store_id,date.quarter;
+SELECT store.store_name,date.quarter,round(SUM(total_sale)) as Revenue from sales JOIN date on date.time_id = sales.time_id 
+JOIN store on store.store_id = sales.store_id group by store.store_id,date.quarter;
 ```
 
 <p align="center">
@@ -178,7 +187,8 @@ SELECT store.store_name,date.quarter,round(SUM(total_sale)) as Revenue from sale
 ### Q6. Top 5 Most Popular Products Sold Over the Weekends
 The goal of this query is to find the 5 most popular products sold over the weekends. The output of the query should show the names of the products along with their respective sales figures.
 ```
-SELECT product.product_name,round(SUM(total_sale)) as Revenue from sales join date on date.time_id = sales.time_id join product on product.product_id = sales.product_id where date.weekend = 1 group by sales.product_id order by Revenue desc limit 5;
+SELECT product.product_name,round(SUM(total_sale)) as Revenue from sales JOIN date on date.time_id = sales.time_id 
+JOIN product on product.product_id = sales.product_id where date.weekend = 1 group by sales.product_id order by Revenue desc limit 5;
 ```
 
 <p align="center">
@@ -198,7 +208,8 @@ SELECT store_id,supplier_id,product_id from sales group by store_id,supplier_id,
 ### Q8. Total Sales of Each Product for the First and Second Half of Year 2017 Along with Total Yearly Sales
 This query aims to extract the total sales of each product for the first and second half of year 2017, along with its total yearly sales. The output of the query should show the total sales figures for each product for each half of the year and for the whole year.
 ```
-SELECT product.product_name,date.half_of_year,round(SUM(total_sale)) as Revenue from sales join product on product.product_id = sales.product_id join date on date.time_id = sales.time_id where date.year = 2017 group by sales.product_id, half_of_year;
+SELECT product.product_name,date.half_of_year,round(SUM(total_sale)) as Revenue from sales JOIN product on product.product_id = sales.product_id 
+JOIN date on date.time_id = sales.time_id where date.year = 2017 group by sales.product_id, half_of_year;
 ```
 
 <p align="center">
@@ -219,7 +230,8 @@ SELECT * FROM dw.product where product_name = "Tomatoes";
 This query involves creating a materialized view with the name "STORE_PRODUCT_ANALYSIS" that presents store and product wise sales. The output of the query should be ordered by store name and then product name. The query should also explain how the materialized view helps in OLAP query optimization.
 ```
 CREATE TABLE `STORE_PRODUCT_ANALYSIS` AS 
-  SELECT store_name,product_name,total_sale FROM sales join store on sales.store_id = store.store_id join product on sales.product_id = product.product_id order by store_name,product_name;
+SELECT store_name,product_name,total_sale FROM sales JOIN store on sales.store_id = store.store_id 
+JOIN product on sales.product_id = product.product_id order by store_name,product_name;
 ```
 ```
 SELECT * from STORE_PRODUCT_ANALYSIS;
