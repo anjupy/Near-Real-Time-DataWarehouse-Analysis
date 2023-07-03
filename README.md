@@ -250,9 +250,9 @@ SELECT * from STORE_PRODUCT_ANALYSIS;
 ## Technologies Used
 The following technologies were used in this project:
 
-Java: for implementing the MESHJOIN algorithm and other components.
-Eclipse IDE: for developing and testing the Java code.
-MySQL: for storing and analyzing the data warehouse.
+1. Java: for implementing the MESHJOIN algorithm and other components.
+2. Eclipse IDE: for developing and testing the Java code.
+3. MySQL: for storing and analyzing the data warehouse.
 
 ## Limitations of MESH-JOIN:
 1. Largely depend on memory which doesn’t make it optimal.
