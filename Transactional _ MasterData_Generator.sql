@@ -1,18 +1,13 @@
 --------------------------------------------------------
---  File Modified - Monday 31th Oct 2022   
+--  File Modified - saturday 08 Dec 2024   
 --------------------------------------------------------
 drop schema if exists `db` ;
--- DROP TABLE if exists `TRANSACTIONS`;
--- DROP TABLE if exists `CUSTOMERS`;
--- DROP TABLE if exists `PRODUCTS`;
+
 commit;
 
 CREATE SCHEMA `db` ;
 USE `db` ;
 
---------------------------------------------------------
---  DDL for Table TRANSACTIONS
---------------------------------------------------------
 CREATE TABLE TRANSACTIONS(
   TRANSACTION_ID DOUBLE(8,0), 
   PRODUCT_ID VARCHAR(6) NOT NULL, 
@@ -26,9 +21,6 @@ CREATE TABLE TRANSACTIONS(
 );
  commit; 
  
---------------------------------------------------------
---  DDL for CUSTOMERS Table (MASTER DATA)
---------------------------------------------------------
 CREATE TABLE CUSTOMERS(
     CUSTOMER_ID VARCHAR(4), 
     CUSTOMER_NAME VARCHAR(30) not null,
@@ -36,9 +28,6 @@ CREATE TABLE CUSTOMERS(
 ) ;
 commit; 
 
---------------------------------------------------------
---  DDL for PRODUCTS Table (MASTER DATA)
---------------------------------------------------------
 CREATE TABLE PRODUCTS(
     PRODUCT_ID VARCHAR(6), 
 	PRODUCT_NAME VARCHAR(30) NOT NULL, 
@@ -48,8 +37,8 @@ CREATE TABLE PRODUCTS(
     CONSTRAINT `PRODUCTS_PK` PRIMARY KEY (PRODUCT_ID)
 );
 commit; 
----------- Populatind data ---------------------------------------------------
- -- Data for CUSTOMERS table
+
+
 Insert into CUSTOMERS (CUSTOMER_ID,CUSTOMER_NAME) values ('C-1','Lezlie Trott');
 Insert into CUSTOMERS (CUSTOMER_ID,CUSTOMER_NAME) values ('C-2','Joeann Shortt');
 Insert into CUSTOMERS (CUSTOMER_ID,CUSTOMER_NAME) values ('C-3','Violet Newingham');

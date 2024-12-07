@@ -10,11 +10,11 @@ public class mj
 {
     static String db_name = "db";
     static String db_usrnme = "root";
-    static String pass = "";
+    static String pass = "root";
 
     static String dw_name = "dw";
     static String dw_usrnme = "root";
-    static String passwordd = "";
+    static String passwordd = "root";
 
     public static class stream extends Thread{
 

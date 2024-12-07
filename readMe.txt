@@ -6,7 +6,7 @@
 3)Run mj.java upon running it will ask for database credientials default are
   database name:db
   username: root
-  password: ""
+  password: "root"
   This file will populate the data in the data warehouse after implementing the meshjoin.
 
 4)Run queriesDW.sql to extract information from the Data warehouse using OLAP queries.
